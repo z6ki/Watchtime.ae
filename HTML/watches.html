@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Watches</title>
+
+  <!-- ✅ Bootstrap CSS & JS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+  <!-- 🧭 Navbar -->
+  <nav class="navbar navbar-expand-lg bg-body shadow-sm px-4 py-3">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="#">⌚ Watch Store</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="watches.html">Browse</a></li>
+          <li class="nav-item"><a class="nav-link" href="sell.html">Sell</a></li>
+          <li class="nav-item"><a class="nav-link" href="wishlist.html">Wishlist</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 🔍 Filters + Search -->
+  <div class="container py-5">
+    <h2 class="mb-4">Available Watches</h2>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-3">
+        <input id="filterBrand" type="text" placeholder="Brand" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <input id="filterPrice" type="number" placeholder="Max Price" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <select id="filterCondition" class="form-select">
+          <option value="">Any Condition</option>
+          <option>New</option>
+          <option>Excellent</option>
+          <option>Very Good</option>
+          <option>Used</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <input id="searchText" type="text" placeholder="Search by name..." class="form-control">
+      </div>
+    </div>
+
+    <!-- 🖼️ Watches Grid -->
+    <div id="watchList" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+      <!-- Cards injected by JavaScript -->
+    </div>
+  </div>
+
+  <!-- 🧠 JavaScript for rendering and filtering -->
+  <script>
+    const watches = [
+      { id: 1, brand: "Rolex", model: "Submariner", price: 10000, condition: "Excellent", image: "https://via.placeholder.com/400x250?text=Rolex+Submariner" },
+      { id: 2, brand: "Omega", model: "Speedmaster", price: 6500, condition: "Very Good", image: "https://via.placeholder.com/400x250?text=Omega+Speedmaster" },
+      { id: 3, brand: "Seiko", model: "Prospex Diver", price: 900, condition: "New", image: "https://via.placeholder.com/400x250?text=Seiko+Prospex" },
+      { id: 4, brand: "Tag Heuer", model: "Carrera", price: 3200, condition: "Good", image: "https://via.placeholder.com/400x250?text=Tag+Heuer+Carrera" },
+      { id: 5, brand: "Audemars Piguet", model: "Royal Oak", price: 25000, condition: "Excellent", image: "https://via.placeholder.com/400x250?text=AP+Royal+Oak" }
+    ];
+
+    function renderWatches(data) {
+      const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      const container = document.getElementById("watchList");
+      container.innerHTML = "";
+
+      data.forEach(watch => {
+        const isSaved = wishlist.some(w => w.id === watch.id);
+        const heart = isSaved ? "❤️" : "🤍";
+
+        const card = document.createElement("div");
+        card.className = "col";
+        card.innerHTML = `
+          <div class="card h-100 shadow-sm position-relative">
+            <button class="btn position-absolute top-0 end-0 m-2" onclick="toggleWishlist(${watch.id})" title="Toggle Wishlist">${heart}</button>
+            <img src="${watch.image}" class="card-img-top" alt="${watch.brand} ${watch.model}">
+            <div class="card-body">
+              <h5 class="card-title">${watch.brand} ${watch.model}</h5>
+              <p class="card-text">Condition: ${watch.condition}</p>
+              <p class="text-success fw-bold">$${watch.price.toLocaleString()}</p>
+              <a href="watch-details.html" class="btn btn-outline-primary w-100">View Details</a>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function applyFilters() {
+      const brand = document.getElementById("filterBrand").value.toLowerCase();
+      const price = parseFloat(document.getElementById("filterPrice").value);
+      const condition = document.getElementById("filterCondition").value;
+      const keyword = document.getElementById("searchText").value.toLowerCase();
+
+      const filtered = watches.filter(watch => {
+        return (
+          (brand === "" || watch.brand.toLowerCase().includes(brand)) &&
+          (isNaN(price) || watch.price <= price) &&
+          (condition === "" || watch.condition === condition) &&
+          (keyword === "" || `${watch.brand} ${watch.model}`.toLowerCase().includes(keyword))
+        );
+      });
+
+      renderWatches(filtered);
+    }
+
+    function toggleWishlist(watchId) {
+      const watch = watches.find(w => w.id === watchId);
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      const index = wishlist.findIndex(w => w.id === watchId);
+
+      if (index >= 0) {
+        wishlist.splice(index, 1);
+      } else {
+        wishlist.push(watch);
+      }
+
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      applyFilters();
+    }
+
+    // Setup event listeners
+    ["filterBrand", "filterPrice", "filterCondition", "searchText"].forEach(id =>
+      document.getElementById(id).addEventListener("input", applyFilters)
+    );
+
+    renderWatches(watches);
+  </script>
+  <!-- Include Footer -->
+  <div id="footer"></div>
+  <script>
+  fetch("footer.html")
+      .then(res => res.text())
+      .then(data => document.getElementById("footer").innerHTML = data);
+  </script>
+</body>
+</html>
