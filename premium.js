@@ -81,6 +81,32 @@
   }, { passive: true });
 })();
 
+/* ---- Interactive 3D atelier stage ---- */
+(function () {
+  const hero = document.querySelector('.atelier-hero');
+  const stage = document.querySelector('.atelier-stage');
+  const copy = document.querySelector('.atelier-copy');
+  if (!hero || !stage) return;
+
+  const isTouch = window.matchMedia('(hover: none)').matches;
+  if (isTouch) return;
+
+  hero.addEventListener('pointermove', (event) => {
+    const bounds = hero.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    stage.style.setProperty('--stage-x', `${x * 7}deg`);
+    stage.style.setProperty('--stage-y', `${y * -5}deg`);
+    if (copy) copy.style.transform = `translate3d(${x * -8}px,${y * -5}px,0)`;
+  });
+
+  hero.addEventListener('pointerleave', () => {
+    stage.style.setProperty('--stage-x', '0deg');
+    stage.style.setProperty('--stage-y', '0deg');
+    if (copy) copy.style.transform = 'translate3d(0,0,0)';
+  });
+})();
+
 /* ---- Animated counters ---- */
 (function () {
   const counters = document.querySelectorAll('[data-count]');
