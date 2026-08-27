@@ -37,40 +37,41 @@ if (!empty($featured)) {
 
 <?php include 'navbar.php'; ?>
 
-<!-- ===== HERO ===== -->
-<section class="hero">
+<!-- ===== ATELIER HERO ===== -->
+<section class="hero atelier-hero">
   <div class="hero-grain"></div>
-  <div class="hero-watch"><img src="<?= htmlspecialchars($heroImg) ?>" alt="Featured luxury watch"></div>
-  <div class="hero-content">
+  <div class="atelier-orb atelier-orb-one"></div>
+  <div class="atelier-orb atelier-orb-two"></div>
+  <div class="atelier-copy">
     <p class="eyebrow reveal">Buy · Sell · Collect</p>
-    <h1 class="reveal reveal-delay-1">Timeless <span class="accent">Elegance</span><br>on Your Wrist</h1>
-    <p class="lead reveal reveal-delay-2">Discover an curated collection of authentic luxury and pre-owned timepieces from the world's most prestigious maisons.</p>
+    <h1 class="reveal reveal-delay-1">The Art of <span class="accent">Time</span><br>Made Personal</h1>
+    <p class="lead reveal reveal-delay-2">A refined destination for authentic luxury watches, guided by a passion for mechanical craft.</p>
     <div class="hero-actions reveal reveal-delay-3">
       <a href="watches.php" class="btn-lux btn-lux-filled"><span>Browse Collection</span></a>
       <a href="sell.php" class="btn-lux"><span>Sell Your Watch</span></a>
     </div>
+    <div class="atelier-signature reveal reveal-delay-4"><span class="signature-line"></span><span>WatchTime.AH Atelier</span></div>
   </div>
-  <div class="hero-scroll reveal reveal-delay-4">
-    <span>Scroll</span>
-    <div class="mouse"></div>
+  <div class="atelier-stage reveal reveal-delay-2" aria-label="WatchTime.AH mechanical logo">
+    <div class="stage-grid"></div>
+    <div class="stage-ring stage-ring-back"></div>
+    <div class="stage-ring stage-ring-front"></div>
+    <div class="stage-shadow"></div>
+    <div class="logo-plinth"><img src="public/logo.png" alt="WatchTime.AH mechanical logo"></div>
+    <div class="stage-caption"><span>01</span><span>PRECISION IN EVERY SECOND</span></div>
   </div>
+  <div class="hero-scroll reveal reveal-delay-4"><span>Scroll to explore</span><div class="mouse"></div></div>
 </section>
 
 <!-- ===== BRAND BELT ===== -->
-<div class="brand-belt-section">
-  <div class="brand-belt">
-    <img src="Assets/Brands/Rolex_resized.png" alt="Rolex">
-    <img src="Assets/Brands/Omega_logo_resized.png" alt="Omega">
-    <img src="Assets/Brands/Cartier_Logo_resized.png" alt="Cartier">
-    <img src="Assets/Brands/Patek_Philippe_resized.png" alt="Patek Philippe">
-    <img src="Assets/Brands/jaeger_lecoultre_logo_resized.png" alt="Jaeger-LeCoultre">
-    <img src="Assets/Brands/audemars_piguet_resized.png" alt="Audemars Piguet">
-    <img src="Assets/Brands/Rolex_resized.png" alt="Rolex">
-    <img src="Assets/Brands/Omega_logo_resized.png" alt="Omega">
-    <img src="Assets/Brands/Cartier_Logo_resized.png" alt="Cartier">
-    <img src="Assets/Brands/Patek_Philippe_resized.png" alt="Patek Philippe">
-    <img src="Assets/Brands/jaeger_lecoultre_logo_resized.png" alt="Jaeger-LeCoultre">
-    <img src="Assets/Brands/audemars_piguet_resized.png" alt="Audemars Piguet">
+<div class="brand-belt-section" data-brand-marquee>
+  <div class="brand-belt" data-brand-track>
+    <div class="brand-belt-group">
+      <img src="Assets/Brands/Rolex_resized.png" alt="Rolex"><img src="Assets/Brands/Omega_logo_resized.png" alt="Omega"><img src="Assets/Brands/Cartier_Logo_resized.png" alt="Cartier"><img src="Assets/Brands/Patek_Philippe_resized.png" alt="Patek Philippe"><img src="Assets/Brands/jaeger_lecoultre_logo_resized.png" alt="Jaeger-LeCoultre"><img src="Assets/Brands/audemars_piguet_resized.png" alt="Audemars Piguet">
+    </div>
+    <div class="brand-belt-group" aria-hidden="true">
+      <img src="Assets/Brands/Rolex_resized.png" alt=""><img src="Assets/Brands/Omega_logo_resized.png" alt=""><img src="Assets/Brands/Cartier_Logo_resized.png" alt=""><img src="Assets/Brands/Patek_Philippe_resized.png" alt=""><img src="Assets/Brands/jaeger_lecoultre_logo_resized.png" alt=""><img src="Assets/Brands/audemars_piguet_resized.png" alt="">
+    </div>
   </div>
 </div>
 

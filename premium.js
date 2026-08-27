@@ -105,3 +105,32 @@
   }, { threshold: 0.5 });
   counters.forEach(c => io.observe(c));
 })();
+
+/* ---- Scroll-responsive brand marquee ---- */
+(function () {
+  const track = document.querySelector('[data-brand-track]');
+  if (!track) return;
+  const groups = track.querySelectorAll('.brand-belt-group');
+  const groupWidth = groups[0].getBoundingClientRect().width;
+  let baseSpeed = 0.04;
+  let scrollBoost = 0;
+  let pos = 0;
+  let last = performance.now();
+  const loop = (now) => {
+    const dt = Math.min(now - last, 48);
+    last = now;
+    scrollBoost *= 0.92;
+    const dir = scrollBoost ? Math.sign(scrollBoost) : -1;
+    pos -= (baseSpeed + Math.abs(scrollBoost)) * dt * dir;
+    if (pos <= -groupWidth) pos += groupWidth;
+    if (pos > 0) pos -= groupWidth;
+    track.style.transform = `translate3d(${pos}px,0,0)`;
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+  window.addEventListener('wheel', (e) => {
+    if (!track.isConnected) return;
+    scrollBoost += (e.deltaY || 0) * 0.06;
+    if (Math.abs(scrollBoost) > 9) scrollBoost = Math.sign(scrollBoost) * 9;
+  }, { passive: true });
+})();
